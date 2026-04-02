@@ -353,14 +353,7 @@ public class AiProject {
     private static List<Integer> orderDomainValues(CSP csp, int row) {
         List<Integer> domain = new ArrayList<>(csp.domains.get(row));
         
-        Collections.sort(domain, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer columnA, Integer columnB) {
-                int conflictsA = countEliminations(csp, row, columnA);
-                int conflictsB = countEliminations(csp, row, columnB);
-                return Integer.compare(conflictsA, conflictsB);
-            }
-        });
+        domain.sort((a, b) -> Integer.compare(countEliminations(csp, row, a), countEliminations(csp, row, b)));
         
         return domain;
     }
@@ -454,37 +447,37 @@ public class AiProject {
             System.out.println("\nTesting N = " + n + "...");
             
             CSP backtrackingCsp = new CSP(n);
-            if (useRandomStart && random != null) {
+            if (useRandomStart) {
                 backtrackingCsp.initializeRandomState(random);
             }
             PerformanceMetrics backtrackingMetrics = new PerformanceMetrics();
             backtrackingMetrics.start();
             boolean backtrackingSolved = backtracking(backtrackingCsp, backtrackingMetrics);
             backtrackingMetrics.stop();
-            
-            System.out.printf("%-6d %-20s %-15d %-20d %-15s%n", 
-                n, "Backtracking (BT)", 
-                backtrackingMetrics.getTimeMs(), 
+
+            System.out.printf("%-6d %-20s %-15d %-20d %-15s%n",
+                n, "Backtracking (BT)",
+                backtrackingMetrics.getTimeMs(),
                 backtrackingMetrics.constraintChecks,
                 backtrackingSolved ? "SOLVED" : "FAILED");
-            
+
             CSP forwardCheckingCsp = new CSP(n);
-            if (useRandomStart && random != null) {
+            if (useRandomStart) {
                 forwardCheckingCsp.initializeRandomState(random);
             }
             PerformanceMetrics forwardCheckingMetrics = new PerformanceMetrics();
             forwardCheckingMetrics.start();
             boolean forwardCheckingSolved = forwardChecking(forwardCheckingCsp, forwardCheckingMetrics);
             forwardCheckingMetrics.stop();
-            
-            System.out.printf("%-6d %-20s %-15d %-20d %-15s%n", 
-                n, "Forward Checking (FC)", 
-                forwardCheckingMetrics.getTimeMs(), 
+
+            System.out.printf("%-6d %-20s %-15d %-20d %-15s%n",
+                n, "Forward Checking (FC)",
+                forwardCheckingMetrics.getTimeMs(),
                 forwardCheckingMetrics.constraintChecks,
                 forwardCheckingSolved ? "SOLVED" : "FAILED");
-            
+
             CSP macCsp = new CSP(n);
-            if (useRandomStart && random != null) {
+            if (useRandomStart) {
                 macCsp.initializeRandomState(random);
             }
             PerformanceMetrics macMetrics = new PerformanceMetrics();

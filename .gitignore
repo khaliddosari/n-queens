@@ -1,5 +1,15 @@
 # Compiled Java classes
 *.class
 
+# Maven build output
+target/
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
 # Claude Code internal files
 .claude/
