@@ -1,0 +1,5 @@
+# Compiled Java classes
+*.class
+
+# Claude Code internal files
+.claude/
