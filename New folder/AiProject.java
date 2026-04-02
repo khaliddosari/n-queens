@@ -256,7 +256,6 @@ public class AiProject {
                 for (int otherRow = 0; otherRow < copiedCsp.n; otherRow++) {
                     if (copiedCsp.assignment[otherRow] == -1 && otherRow != row) {
                         arcQueue.add(new int[]{otherRow, row});
-                        arcQueue.add(new int[]{row, otherRow});
                     }
                 }
                 
@@ -340,9 +339,12 @@ public class AiProject {
                 }
             }
         }
+        if (selectedRow == -1) {
+            throw new IllegalStateException("selectUnassignedVariableMRV called on a complete assignment");
+        }
         return selectedRow;
     }
-    
+
     private static int getDegree(CSP csp, int row) {
         int unassigned = csp.n - csp.assignedCount;
         return (csp.assignment[row] == -1) ? unassigned - 1 : unassigned;
@@ -423,7 +425,8 @@ public class AiProject {
             public void run() {
                 try {
                     Thread.sleep(TIME_LIMIT_MS);
-                    System.out.println("time limit exceeded: 20 minutes");
+                    System.out.println("\nTime limit exceeded: 20 minutes. Exiting.");
+                    System.out.flush();
                     System.exit(0);
                 } catch (InterruptedException e) {
                     return;
@@ -440,7 +443,7 @@ public class AiProject {
         
         int[] testSizes = {4, 8, 16, 22, 32};
         boolean useRandomStart = false;
-        Random random = null;
+        Random random = new Random();
         
         System.out.println("Results Table:");
         System.out.println("=".repeat(100));
@@ -515,13 +518,13 @@ public class AiProject {
         int n;
         
         while (true) {
-            System.out.print("Enter the number of queens (N, 0-64): ");
+            System.out.print("Enter the number of queens (N, 1-64): ");
             if (scanner.hasNextInt()) {
                 n = scanner.nextInt();
-                if (n >= 0 && n <= 64) {
+                if (n >= 1 && n <= 64) {
                     break;
                 } else {
-                    System.out.println("Invalid input. N must be between 0 and 64 (inclusive).");
+                    System.out.println("Invalid input. N must be between 1 and 64 (inclusive).");
                     System.out.println();
                 }
             } else {
@@ -532,12 +535,6 @@ public class AiProject {
         }
         
         scanner.nextLine();
-        
-        if (n == 0) {
-            System.out.println("\n0-Queens problem: Trivially solved (no queens to place). \n");
-            scanner.close();
-            return;
-        }
         
         System.out.println("\nSolving " + n + "-Queens problem...\n");
         
@@ -671,8 +668,9 @@ public class AiProject {
                 if (n <= 32) printSolution(forwardCheckingCsp);
             } else {
                 System.out.println("  No solution found");
+                System.out.println();
             }
-            
+
             CSP macCsp = new CSP(n);
             if (useRandomStart) {
                 macCsp.initializeRandomState(random);
