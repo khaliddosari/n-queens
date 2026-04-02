@@ -28,21 +28,25 @@ document.querySelectorAll('.preset-btn').forEach(btn => {
   });
 });
 
-// ── Solver ───────────────────────────────────────────────────────────────────
-const solveBtn      = document.getElementById('solveBtn');
-const errorBox      = document.getElementById('errorBox');
-const resultsDiv    = document.getElementById('results');
-const metricsGrid   = document.getElementById('metricsGrid');
-const boardTabs     = document.getElementById('boardTabs');
-const boardContainer= document.getElementById('boardContainer');
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+const solveBtn       = document.getElementById('solveBtn');
+const errorBox       = document.getElementById('errorBox');
+const demoGrid       = document.getElementById('demoGrid');
+const boardCard      = document.getElementById('boardCard');
+const boardTabs      = document.getElementById('boardTabs');
+const boardContainer = document.getElementById('boardContainer');
 
 let lastResults = [];
 
+// Start with config card centered
+demoGrid.classList.add('solo');
+
 solveBtn.addEventListener('click', solve);
 
+// ── Solver ───────────────────────────────────────────────────────────────────
 async function solve() {
-  const n           = parseInt(nInput.value, 10);
-  const useRandom   = document.getElementById('randomToggle').checked;
+  const n         = parseInt(nInput.value, 10);
+  const useRandom = document.getElementById('randomToggle').checked;
 
   errorBox.classList.add('hidden');
   errorBox.textContent = '';
@@ -52,7 +56,6 @@ async function solve() {
     return;
   }
 
-  // Loading state
   solveBtn.disabled = true;
   solveBtn.innerHTML = '<span class="spinner"></span> Solving…';
 
@@ -71,9 +74,10 @@ async function solve() {
     }
 
     lastResults = data.results;
+    demoGrid.classList.remove('solo');
     renderMetrics(data.results);
     renderBoardTabs(data.results, 0);
-    resultsDiv.classList.remove('hidden');
+    boardCard.classList.remove('hidden');
 
   } catch (err) {
     showError('Could not reach the server. Make sure the backend is running on port 8080.');
@@ -83,28 +87,34 @@ async function solve() {
   }
 }
 
-// ── Render metrics cards ─────────────────────────────────────────────────────
+// ── Render metric cards into the demo grid (cols 2–4) ────────────────────────
 function renderMetrics(results) {
-  metricsGrid.innerHTML = results.map(r => `
-    <div class="metric-card">
-      <div class="metric-algo">
-        ${formatAlgo(r.algorithm)}
-        <span class="badge ${r.solved ? 'badge-solved' : 'badge-unsolved'}">
-          ${r.solved ? 'Solved' : 'No solution'}
-        </span>
-      </div>
+  // Remove any previously rendered metric cards
+  demoGrid.querySelectorAll('.metric-card').forEach(el => el.remove());
+
+  results.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'metric-card';
+    card.innerHTML = `
+      <div class="metric-algo-name">${formatAlgo(r.algorithm)}</div>
+      <span class="badge ${r.solved ? 'badge-solved' : 'badge-unsolved'}">
+        ${r.solved ? 'Solved' : 'No solution'}
+      </span>
       <div class="metric-stats">
-        <div class="stat-item">
-          <label>Time</label>
-          <span>${r.timeMs} ms</span>
-        </div>
         <div class="stat-item">
           <label>Checks</label>
           <span>${r.constraintChecks.toLocaleString()}</span>
         </div>
       </div>
-    </div>
-  `).join('');
+      <div class="metric-stats">
+        <div class="stat-item">
+          <label>Time</label>
+          <span>${formatTime(r.timeMs)}</span>
+        </div>
+      </div>
+    `;
+    demoGrid.appendChild(card);
+  });
 }
 
 // ── Render board tabs ────────────────────────────────────────────────────────
@@ -139,12 +149,11 @@ function renderBoard(result) {
     return;
   }
 
-  const n       = result.queenColumns.length;
-  const queens  = result.queenColumns;
+  const n      = result.queenColumns.length;
+  const queens = result.queenColumns;
 
-  // Cap cell size so large boards still fit
-  const maxBoardPx = Math.min(480, boardContainer.clientWidth || 480);
-  const cellPx     = Math.max(14, Math.floor(maxBoardPx / n));
+  const maxBoardPx = Math.min(520, boardContainer.clientWidth || 520);
+  const cellPx     = Math.max(12, Math.floor(maxBoardPx / n));
 
   const board = document.createElement('div');
   board.className = 'board';
@@ -153,7 +162,7 @@ function renderBoard(result) {
 
   for (let row = 0; row < n; row++) {
     for (let col = 0; col < n; col++) {
-      const cell = document.createElement('div');
+      const cell    = document.createElement('div');
       const isLight = (row + col) % 2 === 0;
       const isQueen = queens[row] === col;
       cell.className = `cell ${isLight ? 'light' : 'dark'} ${isQueen ? 'queen' : ''}`;
@@ -170,6 +179,11 @@ function renderBoard(result) {
 // ── Helpers ──────────────────────────────────────────────────────────────────
 function formatAlgo(key) {
   return { BACKTRACKING: 'Backtracking', FORWARD_CHECKING: 'Forward Checking', MAC: 'MAC' }[key] || key;
+}
+
+function formatTime(ms) {
+  if (ms >= 1000) return (ms / 1000).toFixed(2) + ' s';
+  return ms + ' ms';
 }
 
 function showError(msg) {

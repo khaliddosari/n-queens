@@ -15,16 +15,18 @@
 
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
-    <div class="container nav-inner">
+    <div class="nav-inner">
       <a class="nav-logo" href="#">N-Queens <span>CSP</span></a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#hero">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#demo">Demo</a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <i class="fa fa-bars"></i>
-      </button>
+      <div class="hamburger-placeholder">
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -85,9 +87,11 @@
         <p class="section-sub">Configure the board and run all three algorithms instantly.</p>
       </div>
 
-      <div class="demo-layout">
-        <!-- Controls -->
-        <div class="demo-card" data-aos="fade-up">
+      <!-- Top row: Config + 3 metric cards (all equal width) -->
+      <div class="demo-grid" id="demoGrid" data-aos="fade-up">
+
+        <!-- Configuration card (always visible, col 1) -->
+        <div class="demo-card" id="configCard">
           <h3><i class="fa fa-cog"></i> Configuration</h3>
 
           <div class="form-group">
@@ -121,18 +125,34 @@
           <div id="errorBox" class="error-box hidden"></div>
         </div>
 
-        <!-- Results -->
-        <div id="results" class="results-col hidden" data-aos="fade-up" data-aos-delay="100">
+        <!-- Metric cards injected here by JS (cols 2–4) -->
 
-          <!-- Metrics -->
-          <div class="metrics-grid" id="metricsGrid"></div>
+      </div>
 
-          <!-- Board tabs -->
-          <div class="board-section demo-card">
-            <div class="board-tabs" id="boardTabs"></div>
-            <div id="boardContainer" class="board-wrapper"></div>
-          </div>
+      <!-- Board card (full width, below the row) -->
+      <div class="board-card demo-card hidden" id="boardCard" data-aos="fade-up">
+        <div class="board-tabs" id="boardTabs"></div>
+        <div id="boardContainer" class="board-wrapper"></div>
+      </div>
 
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section section-alt">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2>Team</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="team-grid">
+        <div class="team-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="team-avatar">KA</div>
+          <p class="team-name">Khalid Al Dosari</p>
+        </div>
+        <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="team-avatar">ZN</div>
+          <p class="team-name">Zeyad bin Nazir</p>
         </div>
       </div>
     </div>
@@ -141,8 +161,12 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer-inner">
-      <span>N-Queens CSP Solver</span>
-      <span class="text-secondary">Built with Spring Boot &amp; Vanilla JS</span>
+      <div class="footer-icons">
+        <a href="https://github.com/khaliddosari" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/khaliddosari" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://khaliddosari.github.io" target="_blank" rel="noopener" aria-label="Portfolio"><i class="fa fa-globe"></i></a>
+      </div>
+      <p>&copy; 2026 Khalid Al Dosari. All rights reserved.</p>
     </div>
   </footer>
 
