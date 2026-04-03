@@ -182,8 +182,10 @@ function renderBoard(result) {
   const n      = result.queenColumns.length;
   const queens = result.queenColumns;
 
-  const maxBoardPx = Math.min(520, boardContainer.clientWidth || 520);
-  const cellPx     = Math.max(12, Math.floor(maxBoardPx / n));
+  const cardPadding = 48; // 24px each side from .demo-card padding
+  const containerW  = (boardContainer.getBoundingClientRect().width || boardContainer.clientWidth || 520) - cardPadding;
+  const maxBoardPx  = Math.min(520, containerW);
+  const cellPx      = Math.floor(maxBoardPx / n);
 
   const board = document.createElement('div');
   board.className = 'board';
