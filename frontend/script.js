@@ -25,8 +25,8 @@ navLinks.querySelectorAll('a').forEach(a => {
 const nInput    = document.getElementById('nInput');
 const presetRow = document.getElementById('presetRow');
 
-const PRESETS_OFF = [4, 8, 12, 16, 20];
-const PRESETS_ON  = [4, 8, 12, 16, 20, 24, 32];
+const PRESETS_OFF = [4, 8, 16, 20];
+const PRESETS_ON  = [4, 8, 16, 20, 24, 32];
 
 function renderPresets() {
   const presets = randomToggle.checked ? PRESETS_ON : PRESETS_OFF;

@@ -154,6 +154,12 @@ body {
 .step-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
 .step-card p  { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
 
+/* ── About Text ──────────────────────────────────────────────────────────── */
+.about-text {
+  max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;
+}
+.about-text p { color: var(--text-secondary); font-size: 1rem; line-height: 1.8; }
+
 /* ── Demo Grid (4 equal columns: config + 3 metrics) ────────────────────── */
 .demo-grid {
   display: grid;
