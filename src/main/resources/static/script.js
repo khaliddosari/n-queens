@@ -41,18 +41,32 @@ let lastResults = [];
 // Start with config card centered
 demoGrid.classList.add('solo');
 
+const randomToggle = document.getElementById('randomToggle');
+
+function getMaxN() { return randomToggle.checked ? 32 : 20; }
+
+function updateMaxN() {
+  const max = getMaxN();
+  nInput.max = max;
+  if (parseInt(nInput.value, 10) > max) nInput.value = max;
+}
+
+randomToggle.addEventListener('change', updateMaxN);
+updateMaxN();
+
 solveBtn.addEventListener('click', solve);
 
 // ── Solver ───────────────────────────────────────────────────────────────────
 async function solve() {
   const n         = parseInt(nInput.value, 10);
-  const useRandom = document.getElementById('randomToggle').checked;
+  const useRandom = randomToggle.checked;
+  const maxN      = getMaxN();
 
   errorBox.classList.add('hidden');
   errorBox.textContent = '';
 
-  if (!n || n < 1 || n > 64) {
-    showError('N must be between 1 and 64.');
+  if (!n || n < 1 || n > maxN) {
+    showError(`N must be between 1 and ${maxN}${!useRandom ? ' when Random Start is off' : ''}.`);
     return;
   }
 
