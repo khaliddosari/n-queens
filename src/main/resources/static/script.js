@@ -17,6 +17,9 @@ hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
 document.addEventListener('click', e => {
   if (!navbar.contains(e.target)) navLinks.classList.remove('open');
 });
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => navLinks.classList.remove('open'));
+});
 
 // ── Preset buttons ───────────────────────────────────────────────────────────
 const nInput = document.getElementById('nInput');
