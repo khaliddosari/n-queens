@@ -22,14 +22,25 @@ navLinks.querySelectorAll('a').forEach(a => {
 });
 
 // ── Preset buttons ───────────────────────────────────────────────────────────
-const nInput = document.getElementById('nInput');
-document.querySelectorAll('.preset-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    nInput.value = btn.dataset.n;
-    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+const nInput    = document.getElementById('nInput');
+const presetRow = document.getElementById('presetRow');
+
+const PRESETS_OFF = [4, 8, 12, 16, 20];
+const PRESETS_ON  = [4, 8, 12, 16, 20, 24, 32];
+
+function renderPresets() {
+  const presets = randomToggle.checked ? PRESETS_ON : PRESETS_OFF;
+  presetRow.innerHTML = presets.map(n =>
+    `<button class="preset-btn" data-n="${n}">${n}</button>`
+  ).join('');
+  presetRow.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      nInput.value = btn.dataset.n;
+      presetRow.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
   });
-});
+}
 
 // ── DOM refs ─────────────────────────────────────────────────────────────────
 const solveBtn       = document.getElementById('solveBtn');
@@ -51,7 +62,9 @@ function getMaxN() { return randomToggle.checked ? 32 : 20; }
 function updateMaxN() {
   const max = getMaxN();
   nInput.max = max;
+  nInput.placeholder = `1 – ${max}`;
   if (parseInt(nInput.value, 10) > max) nInput.value = max;
+  renderPresets();
 }
 
 randomToggle.addEventListener('change', updateMaxN);
