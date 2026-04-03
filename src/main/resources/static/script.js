@@ -13,9 +13,19 @@ window.addEventListener('scroll', () => {
 // ── Hamburger menu ───────────────────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinks');
-hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+  const icon = hamburger.querySelector('i');
+  icon.classList.toggle('fa-bars');
+  icon.classList.toggle('fa-times');
+});
 document.addEventListener('click', e => {
-  if (!navbar.contains(e.target)) navLinks.classList.remove('open');
+  if (!navbar.contains(e.target) && navLinks.classList.contains('open')) {
+    navLinks.classList.remove('open');
+    const icon = hamburger.querySelector('i');
+    icon.classList.add('fa-bars');
+    icon.classList.remove('fa-times');
+  }
 });
 navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => navLinks.classList.remove('open'));
