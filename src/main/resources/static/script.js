@@ -17,14 +17,14 @@ hamburger.addEventListener('click', () => {
   navLinks.classList.toggle('open');
   const icon = hamburger.querySelector('i');
   icon.classList.toggle('fa-bars');
-  icon.classList.toggle('fa-times');
+  icon.classList.toggle('fa-xmark');
 });
 document.addEventListener('click', e => {
   if (!navbar.contains(e.target) && navLinks.classList.contains('open')) {
     navLinks.classList.remove('open');
     const icon = hamburger.querySelector('i');
     icon.classList.add('fa-bars');
-    icon.classList.remove('fa-times');
+    icon.classList.remove('fa-xmark');
   }
 });
 navLinks.querySelectorAll('a').forEach(a => {
