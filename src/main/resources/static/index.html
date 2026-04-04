@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
 
@@ -23,11 +23,9 @@
         <li><a href="#demo">Demo</a></li>
         <li><a href="#team">Team</a></li>
       </ul>
-      <div class="hamburger-placeholder">
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-          <i class="fa fa-bars"></i>
-        </button>
-      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
     </div>
   </nav>
 
@@ -35,11 +33,11 @@
   <section id="hero">
     <div class="hero-glow"></div>
     <div class="container hero-content" data-aos="fade-up">
-      <div class="hero-badge"><i class="fa fa-chess-queen"></i> Constraint Satisfaction Problem</div>
       <h1>N-Queens <span class="accent">Solver</span></h1>
       <p class="hero-sub">
         Compare three CSP algorithms<br>Backtracking, Forward Checking, and MAC<br>Enhanced with MRV, Degree, and LCV heuristics
       </p>
+      <div class="hero-badge"><i class="fa fa-chess-queen"></i> Constraint Satisfaction Problem</div>
       <div class="hero-actions">
         <a href="#demo" class="btn btn-primary"><i class="fa fa-play"></i> Try It</a>
       </div>
@@ -177,6 +175,6 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>

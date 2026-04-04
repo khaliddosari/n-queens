@@ -10,25 +10,20 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// ── Hamburger menu ───────────────────────────────────────────────────────────
-const hamburger = document.getElementById('hamburger');
+// ── Mobile menu ──────────────────────────────────────────────────────────────
+const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
-hamburger.addEventListener('click', () => {
+
+navToggle.addEventListener('click', () => {
+  navToggle.classList.toggle('active');
   navLinks.classList.toggle('open');
-  const icon = hamburger.querySelector('i');
-  icon.classList.toggle('fa-bars');
-  icon.classList.toggle('fa-xmark');
 });
-document.addEventListener('click', e => {
-  if (!navbar.contains(e.target) && navLinks.classList.contains('open')) {
+
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navToggle.classList.remove('active');
     navLinks.classList.remove('open');
-    const icon = hamburger.querySelector('i');
-    icon.classList.add('fa-bars');
-    icon.classList.remove('fa-xmark');
-  }
-});
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
 });
 
 // ── Preset buttons ───────────────────────────────────────────────────────────
