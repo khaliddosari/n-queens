@@ -219,7 +219,7 @@ input[type="number"] {
   border-radius: 8px; padding: 12px 14px; color: var(--text-primary);
   font-family: var(--mono); font-size: 1rem; outline: none;
   transition: border-color var(--transition);
-  -moz-appearance: textfield;
+  appearance: textfield;
   text-align: center;
 }
 input[type="number"]::-webkit-inner-spin-button,
